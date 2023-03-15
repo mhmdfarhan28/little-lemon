@@ -1,5 +1,6 @@
 package com.example.littlelemon
 
+import android.annotation.SuppressLint
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -14,13 +15,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import androidx.lifecycle.MutableLiveData
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.littlelemon.ui.theme.Black
 import com.example.littlelemon.ui.theme.LittleLemonTheme
-
 @Composable
-fun OnBoarding() {
+fun OnBoarding(navController: NavController) {
     var firstName by remember{
         mutableStateOf("")
     }
@@ -73,7 +77,7 @@ fun OnBoarding() {
                 label = { Text("First name")},
                 isError = error,
                 modifier = Modifier
-                    .clip(RoundedCornerShape(8.dp))
+                    .clip(RoundedCornerShape(10.dp))
                     .fillMaxWidth()
                     .padding(10.dp)
             )
@@ -83,7 +87,7 @@ fun OnBoarding() {
                 label = { Text("Last name")},
                 isError = error,
                 modifier = Modifier
-                    .clip(RoundedCornerShape(8.dp))
+                    .clip(RoundedCornerShape(10.dp))
                     .fillMaxWidth()
                     .padding(10.dp)
             )
@@ -93,13 +97,18 @@ fun OnBoarding() {
                 label = { Text(text = "Email")},
                 isError = error,
                 modifier = Modifier
-                    .clip(RoundedCornerShape(8.dp))
+                    .clip(RoundedCornerShape(10.dp))
                     .fillMaxWidth()
                     .padding(10.dp)
             )
             Button(
                 onClick = {
-                    error = firstName.isBlank() && lastName.isBlank() && email.isBlank()
+                    if(firstName.isBlank() && lastName.isBlank() && email.isBlank()) {
+                        error = true
+                    } else {
+                        // TODO("set sharedPreferences and popup text display")
+                        navController.navigate(Home.route)
+                    }
                 },
                 modifier = Modifier
                     .clip(RoundedCornerShape(8.dp))
@@ -119,6 +128,6 @@ fun OnBoarding() {
 @Preview(showBackground = true)
 fun OnBoardingPreview(){
     LittleLemonTheme {
-        OnBoarding()
+        OnBoarding(rememberNavController())
     }
 }
