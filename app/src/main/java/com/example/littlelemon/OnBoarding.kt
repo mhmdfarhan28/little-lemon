@@ -1,8 +1,6 @@
 package com.example.littlelemon
 
-import android.annotation.SuppressLint
 import android.content.SharedPreferences
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -18,8 +16,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
-import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.littlelemon.ui.theme.Black
@@ -61,6 +57,7 @@ fun OnBoarding(navController: NavController, sharedPref: SharedPreferences) {
             Text(
                 text = "Let's get to know you",
                 color = Color.White,
+                style = MaterialTheme.typography.caption,
                 modifier = Modifier
                     .padding(30.dp)
             )
@@ -68,14 +65,17 @@ fun OnBoarding(navController: NavController, sharedPref: SharedPreferences) {
         Column(modifier = Modifier
             .padding(10.dp)) {
             Text(
-                text = "Personal information",modifier = Modifier
+                text = "Personal information",
+                style = MaterialTheme.typography.h4,
+                modifier = Modifier
                     .fillMaxWidth()
                     .padding(20.dp)
             )
             OutlinedTextField(
                 value = firstName,
                 onValueChange = { firstName = it},
-                label = { Text("First name")},
+                label = { Text(text = "First name")},
+                textStyle = MaterialTheme.typography.caption,
                 isError = error,
                 modifier = Modifier
                     .clip(RoundedCornerShape(10.dp))
@@ -85,7 +85,8 @@ fun OnBoarding(navController: NavController, sharedPref: SharedPreferences) {
             OutlinedTextField(
                 value = lastName,
                 onValueChange = { lastName = it},
-                label = { Text("Last name")},
+                label = { Text(text = "Last name")},
+                textStyle = MaterialTheme.typography.caption,
                 isError = error,
                 modifier = Modifier
                     .clip(RoundedCornerShape(10.dp))
@@ -96,6 +97,7 @@ fun OnBoarding(navController: NavController, sharedPref: SharedPreferences) {
                 value = email,
                 onValueChange = { email = it},
                 label = { Text(text = "Email")},
+                textStyle = MaterialTheme.typography.caption,
                 isError = error,
                 modifier = Modifier
                     .clip(RoundedCornerShape(10.dp))
@@ -134,8 +136,7 @@ fun OnBoarding(navController: NavController, sharedPref: SharedPreferences) {
 
 @Composable
 @Preview(showBackground = true)
-fun OnBoardingPreview(){
+fun OnBoardingPreview() {
     LittleLemonTheme {
-
     }
 }
