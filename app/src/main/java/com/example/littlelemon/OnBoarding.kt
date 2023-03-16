@@ -1,6 +1,7 @@
 package com.example.littlelemon
 
 import android.annotation.SuppressLint
+import android.content.SharedPreferences
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -24,7 +25,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.littlelemon.ui.theme.Black
 import com.example.littlelemon.ui.theme.LittleLemonTheme
 @Composable
-fun OnBoarding(navController: NavController) {
+fun OnBoarding(navController: NavController, sharedPref: SharedPreferences) {
     var firstName by remember{
         mutableStateOf("")
     }
@@ -106,7 +107,14 @@ fun OnBoarding(navController: NavController) {
                     if(firstName.isBlank() && lastName.isBlank() && email.isBlank()) {
                         error = true
                     } else {
-                        // TODO("set sharedPreferences and popup text display")
+                        // TODO("popup text display")
+                        sharedPref.edit().apply{
+                            putString("firstName", firstName)
+                            putString("lastName", lastName)
+                            putString("email", email)
+                            putBoolean("login", true)
+                            apply()
+                        }
                         navController.navigate(Home.route)
                     }
                 },
@@ -128,6 +136,6 @@ fun OnBoarding(navController: NavController) {
 @Preview(showBackground = true)
 fun OnBoardingPreview(){
     LittleLemonTheme {
-        OnBoarding(rememberNavController())
+
     }
 }

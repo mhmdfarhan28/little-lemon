@@ -1,5 +1,6 @@
 package com.example.littlelemon
 
+import android.content.SharedPreferences
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -20,7 +21,7 @@ import com.example.littlelemon.ui.theme.Black
 import com.example.littlelemon.ui.theme.LittleLemonTheme
 
 @Composable
-fun Profile(navController: NavController) {
+fun Profile(navController: NavController, sharedPref: SharedPreferences) {
     Column(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -56,7 +57,7 @@ fun Profile(navController: NavController) {
                     .padding(20.dp)
             )
             OutlinedTextField(
-                value = "firstName",
+                value = sharedPref.getString("firstName", "")!!,
                 onValueChange = { },
                 label = { Text("First name")},
                 modifier = Modifier
@@ -65,7 +66,7 @@ fun Profile(navController: NavController) {
                     .padding(10.dp)
             )
             OutlinedTextField(
-                value = "lastName",
+                value = sharedPref.getString("lastName", "")!!,
                 onValueChange = { },
                 label = { Text("Last name")},
                 modifier = Modifier
@@ -74,7 +75,7 @@ fun Profile(navController: NavController) {
                     .padding(10.dp)
             )
             OutlinedTextField(
-                value = "email",
+                value = sharedPref.getString("email", "")!!,
                 onValueChange = { },
                 label = { Text(text = "Email")},
                 modifier = Modifier
@@ -84,7 +85,7 @@ fun Profile(navController: NavController) {
             )
             Button(
                 onClick = {
-                    //TODO("Clear all preferences data")
+                    sharedPref.edit().clear().apply()
                     navController.navigate(OnBoarding.route)
                 },
                 modifier = Modifier
@@ -105,6 +106,5 @@ fun Profile(navController: NavController) {
 @Composable
 fun ProfilePreview() {
     LittleLemonTheme {
-        Profile(rememberNavController())
     }
 }
