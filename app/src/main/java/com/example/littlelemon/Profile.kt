@@ -3,6 +3,7 @@ package com.example.littlelemon
 import android.content.SharedPreferences
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -13,90 +14,123 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.littlelemon.ui.theme.Black
 import com.example.littlelemon.ui.theme.LittleLemonTheme
+import com.example.littlelemon.ui.theme.Transparent
 
 @Composable
 fun Profile(navController: NavController, sharedPref: SharedPreferences) {
-    Column(
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxWidth()
-    ){
-        Image(
-            painter = painterResource(id = R.drawable.logo),
-            contentDescription = "Little Lemon Logo",
-            contentScale = ContentScale.FillWidth,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 100.dp, vertical = 20.dp)
-        )
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(color = MaterialTheme.colors.secondary)
-        ){
-            Text(
-                text = "Let's get to know you",
-                color = Color.White,
-                modifier = Modifier
-                    .padding(30.dp)
-            )
-        }
-        Column(modifier = Modifier
-            .padding(10.dp)) {
-            Text(
-                text = "Personal information",modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(20.dp)
-            )
-            OutlinedTextField(
-                value = sharedPref.getString("firstName", "")!!,
-                onValueChange = { },
-                label = { Text("First name")},
-                modifier = Modifier
-                    .clip(RoundedCornerShape(8.dp))
-                    .fillMaxWidth()
-                    .padding(10.dp)
-            )
-            OutlinedTextField(
-                value = sharedPref.getString("lastName", "")!!,
-                onValueChange = { },
-                label = { Text("Last name")},
-                modifier = Modifier
-                    .clip(RoundedCornerShape(8.dp))
-                    .fillMaxWidth()
-                    .padding(10.dp)
-            )
-            OutlinedTextField(
-                value = sharedPref.getString("email", "")!!,
-                onValueChange = { },
-                label = { Text(text = "Email")},
-                modifier = Modifier
-                    .clip(RoundedCornerShape(8.dp))
-                    .fillMaxWidth()
-                    .padding(10.dp)
-            )
-            Button(
-                onClick = {
-                    sharedPref.edit().clear().apply()
-                    navController.navigate(OnBoarding.route)
-                },
-                modifier = Modifier
-                    .clip(RoundedCornerShape(10.dp))
-                    .fillMaxWidth()
-                    .padding(top = 30.dp, start = 10.dp, end = 10.dp)
-            ) {
-                Text(
-                    text = "Logout",
-                    color = Black
+    LittleLemonTheme {
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    backgroundColor = Transparent,
+                    title = {
+                        Image(
+                            painter = painterResource(id = R.drawable.logo),
+                            contentDescription = "Little Lemon Logo",
+                            contentScale = ContentScale.Fit,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(36.dp)
+                        )},
+                    modifier = Modifier.fillMaxWidth()
                 )
+            }
+        ) { PaddingValues ->
+            Column(
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(PaddingValues)
+            ) {
+                Column(
+                    modifier = Modifier
+                        .padding(10.dp)
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.personal_information),
+                        style = MaterialTheme.typography.h4,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 20.dp, horizontal = 10.dp)
+                    )
+                    Box{
+                        Text(
+                            text = "First name",
+                            style = MaterialTheme.typography.body2,
+                            color = Black,
+                            modifier = Modifier.padding(10.dp)
+                        )
+                        OutlinedTextField(
+                            value = sharedPref.getString("firstName", "")!!,
+                            readOnly = true,
+                            onValueChange = {},
+                            textStyle = MaterialTheme.typography.caption,
+                            shape = RoundedCornerShape(8.dp),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(start = 10.dp, bottom = 10.dp, top = 32.dp, end = 10.dp)
+                        )
+                    }
+                    Box{
+                        Text(
+                            text = "Last name",
+                            style = MaterialTheme.typography.caption,
+                            color = Black,
+                            modifier = Modifier.padding(10.dp)
+                        )
+                        OutlinedTextField(
+                            value = sharedPref.getString("lastName", "")!!,
+                            readOnly = true,
+                            onValueChange = { },
+                            textStyle = MaterialTheme.typography.caption,
+                            shape = RoundedCornerShape(8.dp),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(start = 10.dp, bottom = 10.dp, top = 32.dp, end = 10.dp)
+                        )
+                    }
+                    Box {
+                        Text(
+                            text = "Email",
+                            style = MaterialTheme.typography.caption,
+                            color = Black,
+                            modifier = Modifier.padding(10.dp)
+                        )
+                        OutlinedTextField(
+                            value = sharedPref.getString("email", "")!!,
+                            readOnly = true,
+                            onValueChange = { },
+                            textStyle = MaterialTheme.typography.caption,
+                            shape = RoundedCornerShape(8.dp),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(start = 10.dp, bottom = 10.dp, top = 32.dp, end = 10.dp)
+                        )}
+
+                    Button(
+                        onClick = {
+                            sharedPref.edit().clear().apply()
+                            navController.navigate(OnBoarding.route)
+                        },
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(10.dp))
+                            .fillMaxWidth()
+                            .padding(top = 20.dp, start = 10.dp, end = 10.dp)
+                    ) {
+                        Text(
+                            text = "Logout",
+                            color = Black
+                        )
+                    }
+                }
             }
         }
     }

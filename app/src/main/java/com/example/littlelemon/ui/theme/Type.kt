@@ -18,7 +18,8 @@ val MarkaziText = FontFamily(
 val KarlaText = FontFamily(
     Font(R.font.karla_regular, FontWeight.Normal),
     Font(R.font.karla_medium, FontWeight.Medium),
-    Font(R.font.karla_bold, FontWeight.Bold)
+    Font(R.font.karla_bold, FontWeight.Bold),
+    Font(R.font.karla_extrabold, FontWeight.ExtraBold)
 )
 
 val Typography = Typography(
@@ -40,7 +41,7 @@ val Typography = Typography(
     ),
     h3 = TextStyle(
         fontFamily = KarlaText,
-        fontWeight = FontWeight.Bold,
+        fontWeight = FontWeight.ExtraBold,
         fontSize = 20.sp,
     ),
     h4 = TextStyle(
@@ -50,8 +51,13 @@ val Typography = Typography(
     ),
     caption = TextStyle(
         fontFamily = KarlaText,
-        fontWeight = FontWeight.Bold,
+        fontWeight = FontWeight.Medium,
         fontSize = 16.sp
+    ),
+    h5 = TextStyle(
+        fontFamily = KarlaText,
+        fontWeight = FontWeight.Medium,
+        fontSize = 12.sp
     ),
     body1 = TextStyle(
         fontFamily = KarlaText,
